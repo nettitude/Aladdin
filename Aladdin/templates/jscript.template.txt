@@ -18,7 +18,7 @@ var SW = GetObject("new:" + ShellWindows).Item();
 SW.Document.Application.ShellExecute("AddInProcess.exe", "/guid:32a91b0f-30cd-4c75-be79-ccbd6345de99 /pid:"+ intProcessID, "C:\\Windows\\Microsoft.Net\\Framework64\\v4.0.30319\\", null, 0);
 
 var ct = 0;
-while(ct < 1000000)
+while(ct < 10000000)
 {
 	ct++;
 }
