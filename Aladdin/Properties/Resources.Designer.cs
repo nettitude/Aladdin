@@ -19,7 +19,7 @@ namespace Aladdin.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -123,6 +123,38 @@ namespace Aladdin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.IO;
+        ///using System.Text;
+        ///using System.IO.Pipes;
+        ///using System.Diagnostics;
+        ///
+        ///
+        ///public class Program
+        ///{
+        ///    static void Main(string[] args)
+        ///    {
+        ///        Console.WriteLine(&quot;What are you looking at?&quot;);
+        ///    }
+        ///}
+        ///
+        ///[System.ComponentModel.RunInstaller(true)]
+        ///public class Sample : System.Configuration.Install.Installer
+        ///{
+        ///    public override void Uninstall(System.Collections.IDictionary savedState)
+        ///    {
+        ///        int pid = GetExplorerProcessId();
+        ///
+        ///        LaunchAddin(pid);
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string installutilcs_template {
+            get {
+                return ResourceManager.GetString("installutilcs_template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  function getProc(procName)
         ///{
         ///	var e = new Enumerator (GetObject(&quot;winmgmts:&quot;).InstancesOf(&quot;Win32_process&quot;));
@@ -161,7 +193,7 @@ namespace Aladdin.Properties {
         ///    XSLT1 = XSLT1 + &quot;xmlns:ms=&quot;&quot;urn:schemas-microsoft-com:xslt&quot;&quot;&quot; &amp; vbNewLine
         ///    XSLT1 = XSLT1 + &quot;xmlns:user=&quot;&quot;placeholder&quot;&quot;&quot; &amp; vbNewLine
         ///    XSLT1 = XSLT1 + &quot;version=&quot;&quot;1.0&quot;&quot;&gt;&quot; &amp; vbNewLine
-        ///    XSLT1 = XSLT1 + &quot;&lt;output method=&quot;&quot;text&quot;&quot;/&gt;&quot; &amp;  [rest of string was truncated]&quot;;.
+        ///    XSLT1 = XSLT1 + &quot;&lt;output method=&quot;&quot;text&quot;&quot;/&gt;&quot; &amp; vbNewL [rest of string was truncated]&quot;;.
         /// </summary>
         public static string vba_template {
             get {
